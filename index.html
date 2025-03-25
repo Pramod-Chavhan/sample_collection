@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Sample Collection Process Streamline</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+        :root {
+            --primary-color: #3B82F6;
+            --secondary-color: #EC4899;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body, html {
+            font-family: 'Roboto', sans-serif;
+            height: 100%;
+            overflow-x: hidden;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+        }
+
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: white;
+            text-align: center;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .form-container {
+            background-color: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            padding: 2rem;
+            width: 100%;
+            max-width: 800px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+        }
+
+        .form-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        @media (min-width: 640px) {
+            .form-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .field-container {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: white;
+            margin-bottom: 0.25rem;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 0.375rem;
+            border: none;
+            outline: none;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        input:focus, select:focus {
+            background-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 0 2px var(--primary-color);
+        }
+
+        button {
+            width: 100%;
+            padding: 0.75rem;
+            background-image: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: white;
+            font-weight: 700;
+            font-size: 1rem;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 1rem;
+            color: white;
+            font-size: 0.875rem;
+        }
+
+        #prediction-result {
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 0.5rem;
+            text-align: center;
+            font-weight: 700;
+            color: #333;
+        }
+
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="content">
+            <h1 class="title">WELCOME TO PROJECT_69</h1>
+            <div class="form-container">
+                <h2 class="form-title">Medical Sample Collection Process Streamline</h2>
+                <form id="medical-form">
+                    <div class="form-grid" id="form-fields">
+                        <!-- Form fields will be dynamically inserted here -->
+                    </div>
+                    <button type="submit">Predict</button>
+                </form>
+                <div id="prediction-result"></div>
+            </div>
+        </div>
+        <footer class="footer">
+            <p>©2024 Pramod Chavhan</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const formData = {
+                Patient_Gender: '1',
+                Test_Name: '0',
+                Sample: '0',
+                Way_Of_Storage_Of_Sample: '0',
+                Test_Booking_Time_HH_MM: '',
+                Scheduled_Sample_Collection_Time_HH_MM: '',
+                Cut_off_Schedule: '1',
+                Cut_off_time_HH_MM: '',
+                Traffic_Conditions: '1',
+                Agent_Location_KM: '',
+                Time_Taken_To_Reach_Patient_MM: '',
+                Time_For_Sample_Collection_MM: '',
+                Lab_Location_KM: '',
+                Time_Taken_To_Reach_Lab_MM: '',
+            };
+
+            const selectOptions = {
+                Patient_Gender: [
+                    { value: '1', label: 'Male' },
+                    { value: '0', label: 'Female' }
+                ],
+                Test_Name: [
+                    { value: '0', label: 'Acute kidney profile' },
+                    { value: '1', label: 'HbA1c' },
+                    { value: '2', label: 'Vitamin D-25Hydroxy' },
+                    { value: '3', label: 'TSH' },
+                    { value: '4', label: 'Lipid Profile' },
+                    { value: '5', label: 'Complete Urinalysis' },
+                    { value: '6', label: 'RTPCR' },
+                    { value: '7', label: 'H1N1' },
+                    { value: '8', label: 'Fasting blood sugar' },
+                    { value: '9', label: 'CBC' }
+                ],
+                Sample: [
+                    { value: '0', label: 'Blood' },
+                    { value: '2', label: 'Urine' },
+                    { value: '1', label: 'Swab' }
+                ],
+                Way_Of_Storage_Of_Sample: [
+                    { value: '0', label: 'Advanced' },
+                    { value: '1', label: 'Normal' }
+                ],
+                Cut_off_Schedule: [
+                    { value: '1', label: 'Sample by 5pm' },
+                    { value: '0', label: 'Daily' }
+                ],
+                Traffic_Conditions: [
+                    { value: '1', label: 'Low Traffic' },
+                    { value: '2', label: 'Medium Traffic' },
+                    { value: '0', label: 'High Traffic' }
+                ]
+            };
+
+            const formFields = document.getElementById('form-fields');
+
+            for (const [key, value] of Object.entries(formData)) {
+                const fieldContainer = document.createElement('div');
+                fieldContainer.className = 'field-container';
+
+                const label = document.createElement('label');
+                label.htmlFor = key;
+                label.textContent = key.replace(/_/g, ' ');
+                fieldContainer.appendChild(label);
+
+                if (selectOptions[key]) {
+                    const select = document.createElement('select');
+                    select.id = key;
+                    select.name = key;
+                    select.value = value;
+
+                    selectOptions[key].forEach(option => {
+                        const optionElement = document.createElement('option');
+                        optionElement.value = option.value;
+                        optionElement.textContent = option.label;
+                        select.appendChild(optionElement);
+                    });
+
+                    fieldContainer.appendChild(select);
+                } else {
+                    const input = document.createElement('input');
+                    input.type = 'number';
+                    input.id = key;
+                    input.name = key;
+                    input.value = value;
+                    input.required = true;
+                    fieldContainer.appendChild(input);
+                }
+
+                formFields.appendChild(fieldContainer);
+            }
+
+            const form = document.getElementById('medical-form');
+            const predictionResult = document.getElementById('prediction-result');
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const formData = new FormData(form);
+                
+                fetch('/predict', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    predictionResult.textContent = data.prediction;
+                    predictionResult.style.display = 'block';
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    predictionResult.textContent = 'An error occurred while processing your request.';
+                    predictionResult.style.display = 'block';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
